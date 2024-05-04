@@ -2,17 +2,17 @@
 Package.describe({
     name: 'socialize:voteable',
     summary: 'A package for implementing social up/down style voting',
-    version: '1.0.4',
+    version: '2.0.0',
     git: 'https://github.com/copleykj/socialize-voteable.git',
 });
 
 Package.onUse(function _(api) {
-    api.versionsFrom(['1.10.2', '2.3']);
+    api.versionsFrom(['2.8.1', '3.0-rc.0']);
 
     api.use([
-        'socialize:linkable-model@1.0.6',
-        'socialize:user-blocking@1.0.6',
-        'reywood:publish-composite@1.7.3',
+        'socialize:linkable-model@2.0.0',
+        'socialize:user-blocking@2.0.0',
+        'reywood:publish-composite@1.8.9',
     ]);
 
     api.imply('socialize:linkable-model');

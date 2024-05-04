@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 import { Meteor } from 'meteor/meteor';
 import { LinkParent } from 'meteor/socialize:linkable-model';
-import SimpleSchema from 'simpl-schema';
+import SimpleSchema from 'meteor/aldeed:simple-schema';
 
 import { Vote, VotesCollection } from './vote-model.js';
 
@@ -43,7 +43,7 @@ export const VoteableModel = Base => class extends Base { // eslint-disable-line
      */
     unVote() {
         const linkObject = this.getLinkObject();
-        VotesCollection.remove({ userId: Meteor.userId(), ...linkObject });
+        VotesCollection.removeAsync({ userId: Meteor.userId(), ...linkObject });
     }
 
     /**
@@ -62,8 +62,8 @@ export const VoteableModel = Base => class extends Base { // eslint-disable-line
      * @param  {[type]}  user [description]
      * @return {Boolean}      [description]
      */
-    isVotedOnBy(userId = Meteor.userId()) {
-        return VotesCollection.findOne({ userId, ...this.getLinkObject() });
+    async isVotedOnBy(userId = Meteor.userId()) {
+        return VotesCollection.findOneAsync({ userId, ...this.getLinkObject() });
     }
 
     /**
@@ -72,8 +72,8 @@ export const VoteableModel = Base => class extends Base { // eslint-disable-line
      * @param  {User}  user [description]
      * @return {Boolean}      [description]
      */
-    isUpVotedBy(userId = Meteor.userId()) {
-        return VotesCollection.findOne({ userId, direction: 1, ...this.getLinkObject() });
+    async isUpVotedBy(userId = Meteor.userId()) {
+        return VotesCollection.findOneAsync({ userId, direction: 1, ...this.getLinkObject() });
     }
 
     /**
@@ -81,8 +81,8 @@ export const VoteableModel = Base => class extends Base { // eslint-disable-line
      * @param  {[type]}  user [description]
      * @return {Boolean}      [description]
      */
-    isDownVotedBy(userId = Meteor.userId()) {
-        return VotesCollection.findOne({ userId, direction: -1, ...this.getLinkObject() });
+    async isDownVotedBy(userId = Meteor.userId()) {
+        return VotesCollection.findOneAsync({ userId, direction: -1, ...this.getLinkObject() });
     }
 };
 

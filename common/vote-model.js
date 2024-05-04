@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { BaseModel } from 'meteor/socialize:base-model';
 import { LinkableModel } from 'meteor/socialize:linkable-model';
-import SimpleSchema from 'simpl-schema';
+import SimpleSchema from 'meteor/aldeed:simple-schema';
 /* eslint-enable import/no-unresolved */
 
 /**
@@ -48,16 +48,16 @@ export class Vote extends LinkableModel(BaseModel) {
      * @method Vote.user
      * @return {user} The user instance that voted
      */
-    user() {
-        return Meteor.users.findOne(this.userId);
+    async user() {
+        return Meteor.users.findOneAsync(this.userId);
     }
     /**
      * Check if the user has already voted on the linked object
      * @method Vote.isDuplicate
      * @return {Boolean} Whether or not there is a duplicate vote
      */
-    isDuplicate() {
-        return !!VotesCollection.findOne({ userId: this.userId, linkedObjectId: this.linkedObjectId });
+    async isDuplicate() {
+        return !!VotesCollection.findOneAsync({ userId: this.userId, linkedObjectId: this.linkedObjectId });
     }
 }
 
