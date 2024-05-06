@@ -1,17 +1,27 @@
 # Voteable
 
-This package enables the creation of models that can be up/down voted. For example you may want users to be able to vote on photos, posts, or any number of other things that you wish to model. Rather than maintaining a collection for votes on photos and a collection for votes on posts, we can implement VoteableModel on our `Post` and `Photo` models and then use it's new methods to store and retrieve votes and information about them, linked to these models.
+This package enables the creation of models that can be up/down voted. For example you may want users to be able to vote
+on photos, posts, or any number of other things that you wish to model. Rather than maintaining a collection for votes
+on photos and a collection for votes on posts, we can implement VoteableModel on our `Post` and `Photo` models and then
+use it's new methods to store and retrieve votes and information about them, linked to these models.
 
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+
 - [Supporting The Project](#supporting-the-project)
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)
 - [Scalability - Redis Oplog](#scalability---redis-oplog)
+
 <!-- /TOC -->
 
 ## Supporting The Project
 
-Finding the time to maintain FOSS projects can be quite difficult. I am myself responsible for over 30 personal projects across 2 platforms, as well as Multiple others maintained by the [Meteor Community Packages](https://github.com/meteor-community-packages) organization. Therfore, if you appreciate my work, I ask that you either sponsor my work through GitHub, or donate via Paypal or Patreon. Every dollar helps give cause for spending my free time fielding issues, feature requests, pull requests and releasing updates. Info can be found in the "Sponsor this project" section of the [GitHub Repo](https://github.com/copleykj/socialize-voteable)
+Finding the time to maintain FOSS projects can be quite difficult. I am myself responsible for over 30 personal projects
+across 2 platforms, as well as Multiple others maintained by
+the [Meteor Community Packages](https://github.com/meteor-community-packages) organization. Therfore, if you appreciate
+my work, I ask that you either sponsor my work through GitHub, or donate via Paypal or Patreon. Every dollar helps give
+cause for spending my free time fielding issues, feature requests, pull requests and releasing updates. Info can be
+found in the "Sponsor this project" section of the [GitHub Repo](https://github.com/copleykj/socialize-voteable)
 
 ## Installation
 
@@ -28,7 +38,7 @@ meteor add socialize:voteable
 import { Mongo } from 'meteor/mongo';
 import { VoteableModel } from 'meteor/socialize:voteable';
 import { LinkParent, LinkableModel } from 'meteor/socialize:linkable';
-import SimpleSchema from 'simpl-schema';
+import SimpleSchema from 'meteor/aldeed:simple-schema';
 
 //define the collection to hold photos
 const PhotosCollection = new Mongo.Collection("photos");
@@ -93,8 +103,11 @@ For a more in depth explanation of how to use this package see [API.md](API.md)
 
 ## Scalability - Redis Oplog
 
-This package contains a preliminary implementation of [cultofcoders:redis-oplog][1]'s namespaces to provide reactive scalability as an alternative to Meteor's `livedata`. Use of redis-oplog is not required and will not engage until you install the [cultofcoders:redis-oplog][1] package and configure it.
+This package contains a preliminary implementation of [cultofcoders:redis-oplog][1]'s namespaces to provide reactive
+scalability as an alternative to Meteor's `livedata`. Use of redis-oplog is not required and will not engage until you
+install the [cultofcoders:redis-oplog][1] package and configure it.
 
-Due to the preliminary nature of this implementation, you may run into minor issues. Please report any issues you find to GitHub so that they can be fixed.
+Due to the preliminary nature of this implementation, you may run into minor issues. Please report any issues you find
+to GitHub so that they can be fixed.
 
 [1]:https://github.com/cultofcoders/redis-oplog
