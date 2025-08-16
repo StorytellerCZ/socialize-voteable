@@ -23,7 +23,12 @@ export const VoteableModel = Base => class extends Base { // eslint-disable-line
      */
     upVote() {
         const linkObject = this.getLinkObject();
-        new Vote({ direction: 1, ...linkObject }).save();
+        if (Meteor.isServer) {
+            new Vote({ direction: 1, ...linkObject }).saveAsync();
+        } else {
+            new Vote({ direction: 1, ...linkObject }).save();
+        }
+
     }
 
     /**
@@ -33,7 +38,11 @@ export const VoteableModel = Base => class extends Base { // eslint-disable-line
      */
     downVote() {
         const linkObject = this.getLinkObject();
-        new Vote({ direction: -1, ...linkObject }).save();
+        if (Meteor.isServer) {
+            new Vote({ direction: -1, ...linkObject }).saveAsync();
+        } else {
+            new Vote({ direction: -1, ...linkObject }).save();
+        }
     }
 
     /**
@@ -63,6 +72,13 @@ export const VoteableModel = Base => class extends Base { // eslint-disable-line
      * @return {Boolean}      [description]
      */
     async isVotedOnBy(userId = Meteor.userId()) {
+        if (Meteor.isServer) {
+            return isVotedOnByAsync(userId);
+        }
+        return VotesCollection.findOne({ userId, ...this.getLinkObject() });
+    }
+
+    async isVotedOnByAsync(userId = Meteor.userId()) {
         return VotesCollection.findOneAsync({ userId, ...this.getLinkObject() });
     }
 
@@ -72,7 +88,14 @@ export const VoteableModel = Base => class extends Base { // eslint-disable-line
      * @param  {User}  user [description]
      * @return {Boolean}      [description]
      */
-    async isUpVotedBy(userId = Meteor.userId()) {
+    isUpVotedBy(userId = Meteor.userId()) {
+        if (Meteor.isServer) {
+            return isUpVotedByAsync(userId);
+        }
+        return VotesCollection.findOne({ userId, direction: 1, ...this.getLinkObject() });
+    }
+
+    isUpVotedByAsync(userId = Meteor.userId()) {
         return VotesCollection.findOneAsync({ userId, direction: 1, ...this.getLinkObject() });
     }
 
@@ -81,7 +104,14 @@ export const VoteableModel = Base => class extends Base { // eslint-disable-line
      * @param  {[type]}  user [description]
      * @return {Boolean}      [description]
      */
-    async isDownVotedBy(userId = Meteor.userId()) {
+    isDownVotedBy(userId = Meteor.userId()) {
+        if (Meteor.isServer) {
+            return isDownVotedByAsync(userId);
+        }
+        return VotesCollection.findOne({ userId, direction: -1, ...this.getLinkObject() });
+    }
+
+    async isDownVotedByAsync(userId = Meteor.userId()) {
         return VotesCollection.findOneAsync({ userId, direction: -1, ...this.getLinkObject() });
     }
 };

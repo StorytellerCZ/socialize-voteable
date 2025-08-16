@@ -10,8 +10,8 @@ VotesCollection.allow({
     },
 });
 
-VotesCollection.before.insert(function beforeInsert(userId, vote) {
-    const currentVote = VotesCollection.findOne({ userId, linkedObjectId: vote.linkedObjectId });
+VotesCollection.before.insert(async function beforeInsert(userId, vote) {
+    const currentVote = await VotesCollection.findOneAsync({ userId, linkedObjectId: vote.linkedObjectId });
     if (currentVote) {
         if (vote.direction !== currentVote.direction) {
             currentVote.updateAsync({ $set: { direction: vote.direction } });
